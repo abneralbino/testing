@@ -18,3 +18,5 @@ app.use('/api', routerCarts);
 app.listen(PUERTO, () => {
     console.log(`Servidor inicializado en puerto ${PUERTO}`);
 });
+
+module.exports = app;

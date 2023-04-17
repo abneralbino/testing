@@ -1,6 +1,7 @@
 const fs = require('fs').promises;
 const express = require('express');
-const ProductManager = require('../ProductManager');
+const ProductManager = require ('../ProductManager.js');
+const app = require ('../app');
 
 let bodyParser = require('body-parser')
 
@@ -10,24 +11,26 @@ router.use(express.json());
 
 let productos = [];
 
-const loadData = async () => {
-  const rawdata = await fs.readFile('./listadoDeProductos.JSON');
+/* const loadData = async () => {
+  const rawdata = await fs.readFile('./listad');
   productos = JSON.parse(rawdata);
 };
 
-loadData();
+const productMa = require ('../listadoDeproductos.JSON');
+
+loadData();  */
 
 router.get('/products', async (req, res) => {
   const limite = req.query.limite;
-  const productManager = new ProductManager();
+  
 
   try {
-    await productManager.load();
-    let products = await productManager.getProducts();
+    await ProductManager.load();
+    let products = await ProductManager.getProducts();
 
     if (limite) {
       products = products.slice(0, parseInt(limite));
-    }
+    } 
 
     res.json(products);
   } catch (error) {
@@ -35,12 +38,12 @@ router.get('/products', async (req, res) => {
   }
 });
 
-router.get('/products/:pid', async (req, res) => {
-  const productManager = new ProductManager();
+/* router.get('/products/:pid', async (req, res) => {
+  
   const productId = req.params.pid;
 
   try {
-    await productManager.load();
+    //await productManager.load();
     const product = await productManager.getProductById(parseInt(productId));
 
     if (!product) {
@@ -51,24 +54,7 @@ router.get('/products/:pid', async (req, res) => {
   } catch (error) {
     res.status(500).send({error: error.message});
   }
-});
+}); */
 
-router.post('/products', async (req, res) => {
-    const productManager = new ProductManager();
-
-    try {
-        await productManager.load();
-        const newProduct = await productManager.addProduct(req.body);
-        console.log(req.body);
-
-        productos.push(newProduct);
-        console.log(typeof fs); 
-        await fs.writeFile('./listadoDeProductos.JSON', JSON.stringify(productos, null, 2));
-
-        res.status(201).send(newProduct);
-    } catch (error) {
-        res.status(500).send({error: error.message});
-    }
-});
 
 module.exports = router;

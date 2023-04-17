@@ -4,13 +4,12 @@ const PUERTO = 1000;
 const app = express();
 app.use(express.urlencoded({extended:true}));
 
-
 class ProductManager {
     constructor () {
         this.products = [];
         this.latestId = 1;
-        this.path = './listadoDeProductos.JSON';
-    }
+        this.path = '../src/listadoDeProductos.JSON';
+    } //./listadoDeProductos.JSON
 
     async load() {
         try {
@@ -24,12 +23,11 @@ class ProductManager {
     }
 
     async addProduct (title, description, price, thumbnail, code, stock, status, category) {
-          if (!title || !description || !price || !thumbnail || !code || !stock || !status || !category) {
+        if (!title || !description || !price || !thumbnail || !code || !stock || !status || !category) {
             console.log("Error: todos los campos son obligatorios");
             return; 
-        }  
-
-    const found = this.products.some(product => product.code === code);
+        }  else {
+            const found = this.products.some(product => product.code === code);
         if (found) {
             console.log(`Error: Ya existe un producto con el código ${code}`);
             return;
@@ -56,6 +54,9 @@ class ProductManager {
         });
         
     }
+        }
+
+    
 
     async getProducts() {
 
@@ -121,17 +122,3 @@ class ProductManager {
 
 module.exports = ProductManager;
 
-//ejemplos de uso
-//const manager = new ProductManager();
-//manager.addProduct("Camiseta", "camiseta de algodón", 1500, "imagen1.jpg", "CAM01", 1);
-//manager.addProduct("Pantalon", "Pantalon de seda", 3500, "imagen2.jpg", "PAN01", 1);
-//manager.addProduct("Zapatillas", "Zapatilla negra", 35000, "imagen3.jpg", "ZAP01", 1);
-
-
-
-//console.log(manager.getProducts());
-//manager.getProductById(4);
-//console.log(manager.getProductById(2).description);
-//console.log(manager.getProducts);
-//manager.updateProduct(4,'description', 'Zapatilla amarilla');
-//manager.deleteProduct(2);
