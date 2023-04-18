@@ -1,50 +1,38 @@
-const fs = require('fs').promises;
 const express = require('express');
+const router = express.Router();
 const ProductManager = require ('../ProductManager.js');
-const app = require ('../app');
-
 let bodyParser = require('body-parser')
 
-const router = express.Router();
+const productos = new ProductManager();
+
+
 router.use(bodyParser.urlencoded({ extended: true }));
 router.use(express.json());
 
-let productos = [];
+let products = [];
 
-/* const loadData = async () => {
-  const rawdata = await fs.readFile('./listad');
-  productos = JSON.parse(rawdata);
-};
-
-const productMa = require ('../listadoDeproductos.JSON');
-
-loadData();  */
 
 router.get('/products', async (req, res) => {
   const limite = req.query.limite;
-  
-
   try {
-    await ProductManager.load();
-    let products = await ProductManager.getProducts();
+    await productos.load();
+    let product = await productos.getProducts();
 
     if (limite) {
       products = products.slice(0, parseInt(limite));
     } 
+    
+  res.status(200).send(product);
 
-    res.json(products);
   } catch (error) {
     res.status(500).send({error: error.message});
   }
 });
 
-/* router.get('/products/:pid', async (req, res) => {
-  
+router.get('/products/:pid', async (req, res) => {
   const productId = req.params.pid;
-
   try {
-    //await productManager.load();
-    const product = await productManager.getProductById(parseInt(productId));
+    const product = await productos.getProductById(parseInt(productId));
 
     if (!product) {
       res.status(404).send(`No se encontró ID ${productId}`);
@@ -54,7 +42,69 @@ router.get('/products', async (req, res) => {
   } catch (error) {
     res.status(500).send({error: error.message});
   }
-}); */
+}); 
 
+router.post ('/products', async (req, res) =>{
+  const newProduct = req.body;
+
+  const transport = {
+    title: req.body.title,
+    description: req.body.description,
+    price: req.body.price,
+    thumbnail: req.body.thumbnail,
+    code: req.body.code,
+    stock: req.body.stock,
+    status: req.body.status,
+    category: req.body.category,
+  
+  }
+  
+  res.send(await productos.addProduct(transport));
+  
+});
+
+router.put('/products/:pid/:field', async (req, res) => {
+
+const productId = parseInt(req.params.pid);
+const field = req.params.field;
+const updateData = req.body;
+
+res.send(await productos.updateProduct(productId, field, updateData));
+console.log(productId);
+console.log(field);
+console.log(updateData);
+
+}); 
 
 module.exports = router;
+
+/*{
+    "title": "pants",
+    "description": "panties",
+    "price": 50000,
+    "thumbnail": "paaants",
+    "code": "pant123",
+    "stock": 2,
+    "status": true,
+    "category": "pants"
+}*/
+
+/*,{
+    "title": "shirt",
+    "description": "shirt",
+    "price": 500,
+    "thumbnail": "cool shirt",
+    "code": "shir123",
+    "stock": 10,
+    "status": true,
+    "category": "shirts"
+},{
+    "title": "socks",
+    "description": "socks that sucks",
+    "price": 50,
+    "thumbnail": "soooocks",
+    "code": "SO123",
+    "stock": 30,
+    "status": true,
+    "category": "underwear"
+}*/

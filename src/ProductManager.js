@@ -1,15 +1,16 @@
 const fs = require('fs');
-const express = require('express');
+/* const express = require('express');
 const PUERTO = 1000;
 const app = express();
 app.use(express.urlencoded({extended:true}));
+app.use(express.json()); */
 
 class ProductManager {
     constructor () {
         this.products = [];
         this.latestId = 1;
         this.path = '../src/listadoDeProductos.JSON';
-    } //./listadoDeProductos.JSON
+    } 
 
     async load() {
         try {
@@ -22,41 +23,62 @@ class ProductManager {
         }
     }
 
-    async addProduct (title, description, price, thumbnail, code, stock, status, category) {
-        if (!title || !description || !price || !thumbnail || !code || !stock || !status || !category) {
+    async addProduct (data) {
+        
+        if (!data.title || !data.description || !data.price || !data.thumbnail || !data.code || !data.stock || !data.status || !data.category) {
             console.log("Error: todos los campos son obligatorios");
             return; 
         }  else {
-            const found = this.products.some(product => product.code === code);
-        if (found) {
-            console.log(`Error: Ya existe un producto con el código ${code}`);
-            return;
+            const found = this.products.some(product => data.code === code);
+            if (found) {
+                console.log(`Error: Ya existe un producto con el código ${code}`);
+                return;
+            } else {
+                const newproduct = {
+                    title: data.title,
+                    description: data.description,
+                    price: data.price,
+                    thumbnail: data.thumbnail,
+                    code: data.code,
+                    stock: data.stock,
+                    status: data.status, 
+                    category: data.category,
+                    id: parseInt(Math.random() * 10) //tuve que hacerlo así porque el método que yo usaba antes dejó de funcionar
+                }
+            
+                
+            
+                this.products.push (newproduct);
+                console.log("Producto agregado con éxito");
+
+            fs.readFile(this.path, 'utf8', (err, prodData) => {
+                if (err) {
+                    console.error(err);
+                    return;
+                }
+
+                let products = [];
+
+                if (prodData) {
+                    try {
+                        products = JSON.parse(prodData);
+                    } catch {
+                        console.error('Error parsing JSON string:');
+                        return;
+                    }
+                }
+
+                products.push(newproduct);
+
+                fs.writeFile(this.path, JSON.stringify(products), (err) => {
+                    if (err) throw err;
+                    console.log('Archivo guardado con éxito');
+                });
+            });
+
+                }
+            }
         }
-
-    const newproduct = {
-        title: title,
-        description: description,
-        price: price,
-        thumbnail: thumbnail,
-        code: code,
-        stock: stock,
-        status: true, 
-        category: category,
-        id: ++ this.latestId 
-    }
-
-    this.products.push (newproduct);
-    console.log("Producto agregado con éxito");
-        fs.writeFile(this.path, JSON.stringify(this.products), (err) => {
-            if (err) throw err;
-            console.log('Archivo guardado con éxito');
-            return;
-        });
-        
-    }
-        }
-
-    
 
     async getProducts() {
 
@@ -77,7 +99,7 @@ class ProductManager {
         const product = productsById.find(product => product.id === productId);
         if (product) {
             console.log(product);
-            return product; // Return the product object, not just the ID
+            return product; 
         } else {
             console.log("Error: producto no encontrado");
         }
@@ -100,7 +122,27 @@ class ProductManager {
         });
     }
 
-    async deleteProduct (deleteById){
+
+
+
+    /* async updateProduct (productId, field, updateData) {
+        const data = await fs.promises.readFile(this.path, 'utf-8');
+        const products = JSON.parse(data);
+        
+        const index = products.findIndex(product => product.id === productId);
+        if (index === -1) {
+            console.log('Error: producto no encontrado');
+            return;
+        }
+        products[index][field] = updateData;
+
+        fs.writeFile(this.path, JSON.stringify(products), err => {
+            if (err) throw err;
+            console.log('Producto actualizado con éxito desde updateProduct')
+        });
+    } */
+
+    /* async deleteProduct (deleteById){
         const data = await fs.promises.readFile(this.path, 'utf-8');
         const products = JSON.parse(data);
 
@@ -116,7 +158,7 @@ class ProductManager {
             console.log('Producto borrado con éxito desde deleteProduct');
         });
         
-    }
+    } */
 
 }
 

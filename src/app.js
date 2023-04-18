@@ -1,7 +1,7 @@
 const fs = require('fs');
 const express = require('express');
 const bodyParser = require('body-parser');
-const ProductManager = require('./ProductManager.js');
+const ProductManager = require('./ProductManager');
 
 const routerProducts = require('./routes/products.routes');
 const routerCarts = require('./routes/carts.routes');
