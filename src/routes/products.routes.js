@@ -76,9 +76,18 @@ console.log(updateData);
 
 }); 
 
+router.delete ('/products/:pid', async (req, res) => {
+  const deleteById = parseInt(req.params.pid);
+
+  res.send(await productos.deleteProduct(deleteById));
+  console.log(deleteById);
+});
+
 module.exports = router;
 
-/*{
+/*PARA PROBAR
+
+{
     "title": "pants",
     "description": "panties",
     "price": 50000,

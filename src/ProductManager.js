@@ -1,9 +1,5 @@
 const fs = require('fs');
-/* const express = require('express');
-const PUERTO = 1000;
-const app = express();
-app.use(express.urlencoded({extended:true}));
-app.use(express.json()); */
+
 
 class ProductManager {
     constructor () {
@@ -114,7 +110,7 @@ class ProductManager {
             console.log('Error: producto no encontrado');
             return;
         }
-        products[index][field] = updateData;
+        products[index][field] = updateData[field];
 
         fs.writeFile(this.path, JSON.stringify(products), err => {
             if (err) throw err;
@@ -122,27 +118,7 @@ class ProductManager {
         });
     }
 
-
-
-
-    /* async updateProduct (productId, field, updateData) {
-        const data = await fs.promises.readFile(this.path, 'utf-8');
-        const products = JSON.parse(data);
-        
-        const index = products.findIndex(product => product.id === productId);
-        if (index === -1) {
-            console.log('Error: producto no encontrado');
-            return;
-        }
-        products[index][field] = updateData;
-
-        fs.writeFile(this.path, JSON.stringify(products), err => {
-            if (err) throw err;
-            console.log('Producto actualizado con éxito desde updateProduct')
-        });
-    } */
-
-    /* async deleteProduct (deleteById){
+    async deleteProduct (deleteById){
         const data = await fs.promises.readFile(this.path, 'utf-8');
         const products = JSON.parse(data);
 
@@ -158,9 +134,41 @@ class ProductManager {
             console.log('Producto borrado con éxito desde deleteProduct');
         });
         
-    } */
+    } 
 
 }
 
 module.exports = ProductManager;
 
+/*PARA PROBAR
+
+{
+    "title": "pants",
+    "description": "panties",
+    "price": 50000,
+    "thumbnail": "paaants",
+    "code": "pant123",
+    "stock": 2,
+    "status": true,
+    "category": "pants"
+}*/
+
+/*,{
+    "title": "shirt",
+    "description": "shirt",
+    "price": 500,
+    "thumbnail": "cool shirt",
+    "code": "shir123",
+    "stock": 10,
+    "status": true,
+    "category": "shirts"
+},{
+    "title": "socks",
+    "description": "socks that sucks",
+    "price": 50,
+    "thumbnail": "soooocks",
+    "code": "SO123",
+    "stock": 30,
+    "status": true,
+    "category": "underwear"
+}*/
