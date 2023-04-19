@@ -73,256 +73,27 @@ class CartManager {
         const cartsData = JSON.parse(data);
         
         const cartIndex = cartsData.findIndex(cart => cart.id === cartId);
+        
         if (cartIndex === -1) {
             console.log('Error: cart no encontrado');
             return;
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         const existingProductIndex = cartsData[cartIndex].products.findIndex(product => product.productId === cartProductId);
-  if (existingProductIndex !== -1) {
-    // Product already exists in the cart, update quantity
-    cartsData[cartIndex].products[existingProductIndex].quantity += cartProductQuantity;
-  } else {
-    // Product doesn't exist in the cart, add it
-    const cartProduct = {
-      productId: cartProductId,
-      quantity: cartProductQuantity
-    }
-    cartsData[cartIndex].products.push(cartProduct);
-  }
-        await fs.promises.writeFile(this.path, JSON.stringify(cartsData));
-        console.log("Producto del carrito actualizado");
-    }
-
-
-
-
-    /* async addProductToCart (cartId, cartProductId, cartProductQuantity) {
-        const data = await fs.promises.readFile(this.path, 'utf-8');
-        const cartsData = JSON.parse(data);
-        
-        const cartProduct = {
+        if (existingProductIndex !== -1) {
+            cartsData[cartIndex].products[existingProductIndex].quantity += cartProductQuantity;
+        } else {
+            const cartProduct = {
             productId: cartProductId,
             quantity: cartProductQuantity
-        }
-
-        const cartIndex = cartsData.findIndex(cart => cart.id === cartId);
-        if (cartIndex === -1) {
-            console.log('Error: cart no encontrado');
-            return;
-        } else {
+            }
             cartsData[cartIndex].products.push(cartProduct);
         }
 
         await fs.promises.writeFile(this.path, JSON.stringify(cartsData));
-    console.log("Producto actualizado con éxito");
+        console.log("Producto del carrito actualizado");
+        
     }
- */
 
-
-
-
-
-    /* async updateProductInCart (productId, field, updateData) {
-        const data = await fs.promises.readFile(this.path, 'utf-8');
-        const products = JSON.parse(data);
-        
-        const index = products.findIndex(product => product.id === productId);
-        if (index === -1) {
-            console.log('Error: producto no encontrado');
-            return;
-        }
-        products[index][field] = updateData[field];
-
-        fs.writeFile(this.path, JSON.stringify(products), err => {
-            if (err) throw err;
-            console.log('Producto actualizado con éxito desde updateProduct')
-        });
-    } */
-
-    /* async updateProductInCart2 (cartId, cartProductId, cartProductQuantity) {
-        const data = await fs.promises.readFile(this.path, 'utf-8');
-        const cartsData = JSON.parse(data);
-        const cartProduct = {
-            productId: parseInt(Math.random() * 100),
-            quantity: cartProductQuantity
-        }
-
-        const cartIndex = cartsData.findIndex(cart => cart.id === cartId);
-        if (cartIndex === -1) {
-            console.log('Error: cart no encontrado');
-            return;
-        }
-        
-        const changeCartProduct = cartsData[cartIndex];
-        const productIndex = changeCartProduct.products.findIndex(product => product.productId === cartProductId);
-        if (productIndex === -1) {
-            console.log('Error: producto no encontrado en tu carrito');
-            return;
-        }
-        
-        cart.products[productIndex].quantity = cartProductQuantity;
-
-        await fs.promises.writeFile(this.path, JSON.stringify(cartsData));
-    console.log("Producto actualizado con éxito");
-    } */
-
-    /* async getCarts() {
-
-        try {
-            const data = await fs.promises.readFile(this.path, 'utf-8');
-            const cartGet = JSON.parse(data);
-            console.log(cartGet);
-            return this.cartGet;
-        } catch (error) {
-            console.log(error);
-            return;
-        }
-    } */
-    
-    /* async addcart (cartData) {
-        /* const newCart = {
-                    title: data.title,
-                    description: data.description,
-                    price: data.price,
-                    thumbnail: data.thumbnail,
-                    code: data.code,
-                    stock: data.stock,
-                    status: data.status, 
-                    category: data.category,
-                    id: parseInt(Math.random() * 10) //tuve que hacerlo así porque el método que yo usaba antes dejó de funcionar
-                } 
-        if (!cartData.title || !cartData.description || !cartData.price || !cartData.thumbnail || !cartData.code || !cartData.stock || !cartData.status || !cartData.category) {
-            console.log("Error: todos los campos son obligatorios");
-            return; 
-        }  else {
-            const found = this.products.some(product => data.code === code);
-            if (found) {
-                console.log(`Error: Ya existe un producto con el código ${code}`);
-                return;
-            } else {
-                const newCart = {
-                    title: data.title,
-                    description: data.description,
-                    price: data.price,
-                    thumbnail: data.thumbnail,
-                    code: data.code,
-                    stock: data.stock,
-                    status: data.status, 
-                    category: data.category,
-                    id: parseInt(Math.random() * 10) //tuve que hacerlo así porque el método que yo usaba antes dejó de funcionar
-                }
-            
-                
-            
-                this.products.push (newproduct);
-                console.log("Producto agregado con éxito");
-
-            fs.readFile(this.path, 'utf8', (err, prodData) => {
-                if (err) {
-                    console.error(err);
-                    return;
-                }
-
-                let products = [];
-
-                if (prodData) {
-                    try {
-                        products = JSON.parse(prodData);
-                    } catch {
-                        console.error('Error parsing JSON string:');
-                        return;
-                    }
-                }
-
-                products.push(newproduct);
-
-                fs.writeFile(this.path, JSON.stringify(products), (err) => {
-                    if (err) throw err;
-                    console.log('Archivo guardado con éxito');
-                });
-            });
-
-                }
-            }
-        }
- */
-    /* async getProducts() {
-
-        try {
-            const data = await fs.promises.readFile(this.path, 'utf-8');
-            const products = JSON.parse(data);
-            console.log(products);
-            return this.products;
-        } catch (error) {
-            console.log(error);
-            return;
-        }
-    } */
-
-    /* async getProductById(productId) {
-        const data = await fs.promises.readFile(this.path, 'utf-8'); 
-        const productsById = JSON.parse(data);
-        const product = productsById.find(product => product.id === productId);
-        if (product) {
-            console.log(product);
-            return product; 
-        } else {
-            console.log("Error: producto no encontrado");
-        }
-    }  */
-
-    /* async updateProduct (productId, field, updateData) {
-        const data = await fs.promises.readFile(this.path, 'utf-8');
-        const products = JSON.parse(data);
-        
-        const index = products.findIndex(product => product.id === productId);
-        if (index === -1) {
-            console.log('Error: producto no encontrado');
-            return;
-        }
-        products[index][field] = updateData[field];
-
-        fs.writeFile(this.path, JSON.stringify(products), err => {
-            if (err) throw err;
-            console.log('Producto actualizado con éxito desde updateProduct')
-        });
-    }
- */
-    /* async deleteProduct (deleteById){
-        const data = await fs.promises.readFile(this.path, 'utf-8');
-        const products = JSON.parse(data);
-
-        const deleteItemFilter = products.filter(product => product.id !== deleteById);
-
-        if (deleteItemFilter.length === products.length) {
-            console.log(`Error: No se encontró producto con ID ${deleteById}`);
-            return;
-        }
-
-        fs.writeFile(this.path, JSON.stringify(deleteItemFilter), err => {
-            if (err) throw err;
-            console.log('Producto borrado con éxito desde deleteProduct');
-        });
-        
-    }  */
 
 }
 
