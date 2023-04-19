@@ -2,6 +2,7 @@ const fs = require('fs');
 const express = require('express');
 const bodyParser = require('body-parser');
 const ProductManager = require('./ProductManager');
+const CartManager = require('./CartManager');
 
 const routerProducts = require('./routes/products.routes');
 const routerCarts = require('./routes/carts.routes');
