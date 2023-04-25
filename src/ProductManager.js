@@ -1,4 +1,3 @@
-//const fs = require('fs');
 import fs from 'fs';
 
 class ProductManager {
@@ -77,11 +76,9 @@ class ProductManager {
         }
 
     async getProducts() {
-
         try {
             const data = await fs.promises.readFile(this.path, 'utf-8');
             const products = JSON.parse(data);
-            console.log(products);
             return this.products;
         } catch (error) {
             console.log(error);
@@ -138,7 +135,7 @@ class ProductManager {
 
 }
 
-//module.exports = ProductManager;
+
 export default ProductManager;
 
 /*PARA PROBAR

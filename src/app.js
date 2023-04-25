@@ -1,34 +1,22 @@
-//const fs = require('fs');
-//const express = require('express');
-//const bodyParser = require('body-parser');
+
 import fs from 'fs';
 import express from 'express';
 import bodyParser from 'body-parser';
 
 
-
-
-/////////////////////////
 import handlebars from 'express-handlebars';
 import Engine from 'express-handlebars';
 import { __dirname } from './utils.js'
-/////////////////////////
 
-//const ProductManager = require('./ProductManager');
-//const CartManager = require('./CartManager');
 
 import ProductManager from './ProductManager.js';
 import CartManager from './CartManager.js';
-///////////////////////////////////////////////
-
-//const routerProducts = require('./routes/products.routes');
-//const routerCarts = require('./routes/carts.routes');
 
 import router from './routes/products.routes.js';
-//import CartRouter from './routes/carts.routes.js';
 import cartRouter from './routes/carts.routes.js';
+import viewsRouter from './routes/views.routes.js';
 
-////////////////////////////////////////////////////
+
 
 const PUERTO = 1000;
 
@@ -43,15 +31,11 @@ app.set('views', './views');
 app.use(express.urlencoded({extended:true}));
 app.use(bodyParser.json());
 
-app.use(express.static('public'));
+app.use(express.static('views')); //cambiarlo a public para acceder a index.html
 
-/* app.use('/api', router);
+app.use('/api', router);
 app.use('/api', cartRouter);
-app.use(express.static('/public', express.static(`${__dirname}/public`)));*/
-
-app.get ('/', (req, res) => {
-    res.render('index', { getProducts });
-});
+app.use(viewsRouter);
 
 app.listen(PUERTO, () => {
     console.log(`Servidor inicializado en puerto ${PUERTO}`);

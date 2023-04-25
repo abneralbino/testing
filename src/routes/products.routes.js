@@ -1,15 +1,14 @@
-//const express = require('express');
+
 import express from 'express';
 
 
 import { Router as expressRouter } from 'express';
 const router = expressRouter();
-//const router = express.Router();
 
-//const ProductManager = require ('../ProductManager.js');
+
 import ProductManager from '../ProductManager.js';
 
-//let bodyParser = require('body-parser')
+
 import bodyParser from 'body-parser';
 
 
@@ -26,18 +25,21 @@ router.get('/products', async (req, res) => {
   const limite = req.query.limite;
   try {
     await productos.load();
-    let product = await productos.getProducts();
-
+    const showProducts = await productos.getProducts();
     if (limite) {
       products = products.slice(0, parseInt(limite));
-    } 
     
-  res.status(200).send(product);
-
+    } else {
+      res.render('home', {showProducts});
+    }   
+    console.log("Show products is working?", showProducts);
   } catch (error) {
     res.status(500).send({error: error.message});
   }
+  
 });
+
+
 
 router.get('/products/:pid', async (req, res) => {
   const productId = req.params.pid;
