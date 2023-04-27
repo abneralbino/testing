@@ -56,7 +56,7 @@ class ProductManager {
 
                 if (prodData) {
                     try {
-                        products = JSON.parse(prodData);
+                       products = JSON.parse(prodData);
                     } catch {
                         console.error('Error parsing JSON string:');
                         return;
@@ -115,7 +115,7 @@ class ProductManager {
         });
     }
 
-    async deleteProduct (deleteById){
+    async deleteProduct (deleteById){ //test en postman localhost:1000/api/products/IDdel producto
         const data = await fs.promises.readFile(this.path, 'utf-8');
         const products = JSON.parse(data);
 

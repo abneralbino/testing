@@ -16,11 +16,34 @@ import router from './routes/products.routes.js';
 import cartRouter from './routes/carts.routes.js';
 import viewsRouter from './routes/views.routes.js';
 
+import { Server } from 'socket.io';
 
 
-const PUERTO = 1000;
+const PUERTO = 1000; //servidor de express 
+const WS_PORT = 1010; //servidor Websocket
 
 const app = express();
+const httpServer = app.listen(WS_PORT, () => {
+    console.log(`Servidor WS activo en puerto ${WS_PORT}`)
+});
+const wss = new Server(httpServer, {cors: { origin: "http://localhost1010"}});
+
+
+//Eventos socket.io
+wss.on('connection', (socket) => {
+    console.log(`Nuevo cliente conectado (${socket.id})`);
+
+    socket.emit('server_confirm', 'Que se vea en el cliente: Conexion recibida');
+
+    socket.on("disconect", (reason) => {
+        console.log(`'cliente desconectado (${socket.id}): ${reason}`);
+    });
+
+    socket.on('event_cl_01', (data) => {
+        console.log(data);
+        //socket.emit('confirm', 'Conexion de cliente recibida');
+    })
+})
 
 app.engine ('handlebars', handlebars.engine());
 app.set('views', __dirname + '/views');
@@ -38,7 +61,7 @@ app.use('/api', cartRouter);
 app.use(viewsRouter);
 
 app.listen(PUERTO, () => {
-    console.log(`Servidor inicializado en puerto ${PUERTO}`);
+    console.log(`Servidor base API/Static inicializado en puerto ${PUERTO}`);
 });
 
 export default app;
