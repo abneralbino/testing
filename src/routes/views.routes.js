@@ -16,9 +16,6 @@ const io = new Server(httpServer);
 
 
 
-
-
-
 const productos = new ProductManager();
 
 
@@ -33,7 +30,7 @@ viewsRouter.get('/realtimeproducts', async (req, res) => { //probar con http://l
     await productos.load();
     const showProducts = await productos.getProducts();
     res.render('realtimeproducts', {showProducts});
-    console.log("realtimeproducts endpoint is working? YES!" , showProducts);
+    console.log("realtimeproducts static endpoint is working? YES!" , showProducts);
     } catch (error) {
       res.status(500).send({error: error.message});
     }
@@ -46,10 +43,12 @@ io.on('connection', (socket)  => {
 
   socket.on('delete_product', async (id) => { // Escuchando 'delete_product' 
     const deleteProdIo = await productos.deleteProduct(id); // Delete product por ID usando deleteProduct()
-    console.log(deleteProdIo);
+    console.log('WHY AM I NOT SHOWING?!');
   });
 
 }); 
+
+
 
 /* viewsRouter.delete ('/realtimeproducts/:pid', async (req, res) => {
   const deleteById = parseInt(req.params.pid);

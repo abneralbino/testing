@@ -16,7 +16,7 @@
                 <p class="card-text">Stock: {{this.stock}}</p>
                 <p class="card-text">Status: {{this.status}}</p>
                 <p class="card-text">ID: {{this.id}}</p>
-                <a href="#" class="btn btn-primary" {{!-- data-product-id="{{this.id}}" --}} onclick="deleteProduct('{{this.id}}')">Delete</a> {{!-- que cada boton delete esté asignado al ID del producto --}}
+                <a href="#" class="btn btn-primary" {{!-- data-product-id="{{this.id}}" --}} onclick="deleteProduct('{{this.id}}')" id="click">Delete</a> {{!-- que cada boton delete esté asignado al ID del producto --}}
             </div>
             </div>
             {{/each}}
@@ -67,15 +67,21 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.1/socket.io.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-        const wsc = io.connect('ws://localhost:1010');
+        const socket = io('http://localhost:1010');
 
-        wsc.emit('event_cl01', 'Cliente 01 intentando conectar');
-        wsc.on('server_confirm', (data) => {
-            console.log('RealTime Products handlebar se muestra? YES B-EA-TCH!', data);
+        socket.emit('event_cl01', 'Cliente 01 intentando conectar');
+
+        socket.on('connect', () => {
+            socket.emit('event_product', 'Este es un mesaje de producto');
+            socket.on('server_confirm', (msg) => {
+                console.log('El servidor ha confirmado la conexion - DESDE RTPHDB');
+            })
         });
         
         function deleteProduct(id) {
-        wsc.emit('delete_product', id);
+        socket.emit('delete_product', id);
         console.log('La funcion se activa cuando hago click', id)
-        }
+        };
+
+        
     </script>
