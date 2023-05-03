@@ -12,7 +12,7 @@ import bodyParser from 'body-parser';
 
 import { Server } from 'socket.io';
 import app from '../app.js';
-const io = new Server(httpServer);
+const io = new Server();
 
 
 
@@ -38,12 +38,12 @@ viewsRouter.get('/realtimeproducts', async (req, res) => { //probar con http://l
 });
 
 
-io.on('connection', (socket)  => {
+io.on('connection', (socket) => {
   console.log('Usuario conectado: probando DELETE');
 
   socket.on('delete_product', async (id) => { // Escuchando 'delete_product' 
     const deleteProdIo = await productos.deleteProduct(id); // Delete product por ID usando deleteProduct()
-    console.log('WHY AM I NOT SHOWING?!');
+    console.log('WHY AM I NOT SHOWING?! ROUTER');
   });
 
 }); 
