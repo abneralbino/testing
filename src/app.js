@@ -23,12 +23,16 @@ const app = express();
 const httpServer = app.listen(WS_PORT, () => {
     console.log(`Servidor WS activo en puerto ${WS_PORT}`)
 });
-const wss = new Server(httpServer, {cors: {origin: "http://localhost:1010"}});
+//const io = new Server(httpServer, {cors: {origin: "http://localhost:1010"}});
+
+
 
 app.use(express.urlencoded({extended:true}));
 app.use(bodyParser.json());
 
 const server = http.createServer(app);
+
+const io = new Server(server);
 
 //TEMPLATE ENGINE - MOTOR DE PLANTILLAS
 app.engine ('handlebars', handlebars.engine());
@@ -51,7 +55,7 @@ app.listen(PUERTO, () => {
 
 
 //Eventos socket.io
-wss.on('connection', (socket) => {
+io.on('connection', (socket) => {
     console.log(`Nuevo cliente conectado (${socket.id})`);
 
     socket.emit('server_confirm', 'Que se vea en el cliente: Conexion recibida');
@@ -67,7 +71,7 @@ wss.on('connection', (socket) => {
 
     socket.on('delete_product', async (id) => { // Escuchando 'delete_product' 
     console.log(`Recibiendo peticion para borrar producto ${id}`);
-    let products =  new ProductManager()
+    let products = await new ProductManager()
 
     products.deleteProduct(parseInt(id))
     .then(() => {
@@ -94,6 +98,8 @@ wss.on('connection', (socket) => {
 
         
     });
+
+    
 
     
 

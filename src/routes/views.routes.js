@@ -2,6 +2,7 @@ import http from 'http';
 import express from 'express';
 import { Router as expressRouter } from 'express';
 
+
 const viewsRouter = expressRouter();
 const appEx = express ();
 const httpServer = http.createServer(appEx);
@@ -12,7 +13,9 @@ import bodyParser from 'body-parser';
 
 import { Server } from 'socket.io';
 import app from '../app.js';
-const io = new Server();
+
+const io = new Server(httpServer);
+
 
 
 
@@ -35,8 +38,7 @@ viewsRouter.get('/realtimeproducts', async (req, res) => { //probar con http://l
       res.status(500).send({error: error.message});
     }
   
-});
-
+}); 
 
 io.on('connection', (socket) => {
   console.log('Usuario conectado: probando DELETE');
@@ -46,18 +48,50 @@ io.on('connection', (socket) => {
     console.log('WHY AM I NOT SHOWING?! ROUTER');
   });
 
-}); 
+});
 
 
+io.on('delete_product', async (id) => { // Escuchando 'delete_product' 
+  console.log(`Recibiendo peticion para borrar producto ${id}`);
+  let products =  new ProductManager()
 
-/* viewsRouter.delete ('/realtimeproducts/:pid', async (req, res) => {
+  products.deleteProduct(parseInt(id))
+  .then(() => {
+      console.log(`Producto con ID ${id} borrado con éxito`);
+  })
+  .catch((err) => {
+      console.log(`Error al borrar producto con ID ${id}: ${err.message}`)
+  })
+      
+  });
+
+  io.on('add_product', async (product) => {
+      console.log (`Recibiendo producto`, product);
+
+      let products = new ProductManager()
+
+      products.addProduct(product)
+      .then(() => {
+          console.log('Producto agregado con éxito')
+      })
+      .catch((err) => {
+          console.log(`Error al agregar producto`)
+      })
+
+      
+  });
+ 
+
+  
+
+ viewsRouter.delete ('/realtimeproducts/:pid', async (req, res) => {
   const deleteById = parseInt(req.params.pid);
 
   res.send(await productos.deleteProduct(deleteById));
   console.log(deleteById);
-}); */
+}); 
 
-/* viewsRouter.post ('/realtimeproducts', async (req, res) =>{
+ viewsRouter.post ('/realtimeproducts', async (req, res) =>{
   const newProduct = req.body;
 
   const transport = {
@@ -74,7 +108,7 @@ io.on('connection', (socket) => {
   
   res.send(await productos.addProduct(transport));
   
-}); */
+}); 
 
 
 export default viewsRouter;
