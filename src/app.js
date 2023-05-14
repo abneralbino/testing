@@ -23,7 +23,7 @@ const MONGOOSE_URL = process.env.MONGOOSE_URL;
 
 //LOS PUERTOS
 const PUERTO = 1000; //servidor de express 
-const WS_PORT = 1010; //servidor Websocket
+const WS_PORT = 2020; //servidor Websocket
 
 //SERVIDOR EXPRESS
 const app = express();
