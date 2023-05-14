@@ -1,4 +1,4 @@
-
+/* 
         const socket = io('http://localhost:1010');
           const productList = document.getElementById('product-list');
 
@@ -77,4 +77,4 @@
             console.log('La funcion se activa cuando hago click en Save', product )
         };
         
-    
+     */
