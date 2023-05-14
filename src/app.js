@@ -18,19 +18,19 @@ import viewsRouter from './routes/views.routes.js';
 
 import { __dirname } from './utils.js';
 
-const PORT = parseInt(process.env.PORT) || 1010;
+const PORT = parseInt(process.env.PORT) || 2020;
 const MONGOOSE_URL = process.env.MONGOOSE_URL;
 
-/* //LOS PUERTOS
+//LOS PUERTOS
 const PUERTO = 1000; //servidor de express 
-const WS_PORT = 1010; //servidor Websocket */
+const WS_PORT = 1010; //servidor Websocket
 
 //SERVIDOR EXPRESS
 const app = express();
 const server = http.createServer(app);
-/* const httpServer = app.listen(WS_PORT, () => {
+const httpServer = app.listen(WS_PORT, () => {
     console.log(`Servidor WS activo en puerto ${WS_PORT}`)
-}); */
+}); 
 //const io = new Server(httpServer, {cors: {origin: "http://localhost:1010"}});
 
 
@@ -48,8 +48,6 @@ io.on('connection', (socket) => {
     console.log(`Nuevo cliente conectado (${socket.id}) IO`);
 
     socket.emit('server_confirm', 'Que se vea en el cliente: Conexion recibida');
-
-    
 
     socket.on("disconnect", (reason) => {
         console.log(`'cliente desconectado (${socket.id}): ${reason}`);
@@ -99,7 +97,7 @@ app.use(express.urlencoded({extended:true}));
 //Endpoints API rest
 app.use('/api', productsRouter(io));
 app.use('/api', cartRouter(io));
-app.use(viewsRouter(io));
+app.use('', viewsRouter(io));
 
 app.use('/public', express.static(`${__dirname}/public`));
 

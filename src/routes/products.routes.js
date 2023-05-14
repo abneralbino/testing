@@ -9,7 +9,7 @@ let products = [];
 
 const productsRouter = (io) => {
 
-  const router = Router();
+const router = Router();
 const productos = new ProductManager();
 
 router.use(bodyParser.urlencoded({ extended: true }));
@@ -95,7 +95,7 @@ router.use(express.json());
 
   return router;
   
-}
+};
 
 export default productsRouter;
 
