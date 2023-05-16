@@ -16,7 +16,7 @@
                 <p class="card-text">Stock: {{this.stock}}</p>
                 <p class="card-text">Status: {{this.status}}</p>
                 <p class="card-text">ID: {{this.id}}</p>
-                <a href="#" class="btn btn-primary" {{!-- data-product-id="{{this.id}}" --}} onclick="deleteProduct('{{this.id}}')" id="click">Delete</a> {{!-- que cada boton delete esté asignado al ID del producto --}}
+                <a  class="btn btn-primary" {{!-- data-product-id="{{this.id}}" --}} onclick="deleteProduct('{{this.id}}')" id="click">Eliminar</a> {{!-- que cada boton delete esté asignado al ID del producto --}}
             </div>
             </div>
             {{/each}}
@@ -61,7 +61,7 @@
                 <input type="text" class="form-control" id="category">
             </div>
             <div class="col-12">
-            <button type="submit" class="btn btn-primary" onclick="addProduct()" >Save</button>
+            <button type="submit" class="btn btn-primary" onclick="addProduct()">Guardar</button>
             </div>
         </form>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.6.1/socket.io.js"></script>
@@ -151,9 +151,5 @@ socket.on('connect', () => {
         
 
 });
-
-
-
-            
 
 </script> 

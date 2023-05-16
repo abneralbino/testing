@@ -17,7 +17,7 @@ import app from '../app.js';
 const io = new Server(httpServer);
 
 
-const hbviewsRouter = (io) => {
+const hbViewsRouter = (io) => {
 
   const productos = new ProductManager();
 
@@ -110,10 +110,10 @@ io.on('delete_product', async (id) => { // Escuchando 'delete_product'
   
 }); 
 
-return hbviewsRouter;
+return hbViewsRouter;
 
 };
 
 
 
-export default viewsRouter;
+export default hbViewsRouter;

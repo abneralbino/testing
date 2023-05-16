@@ -13,8 +13,8 @@ import handlebars from 'express-handlebars';
 import ProductManager from './ProductManager.js';
 import CartManager from './CartManager.js';
 import productsRouter from './routes/products.routes.js';
-import cartRouter from './routes/carts.routes.js';
-import viewsRouter from './routes/views.routes.js';
+import cartsRouter from './routes/carts.routes.js';
+import hbViewsRouter from './routes/views.routes.js';
 
 import { __dirname } from './utils.js';
 
@@ -96,12 +96,12 @@ app.use(express.urlencoded({extended:true}));
 
 //Endpoints API rest
 app.use('/api', productsRouter(io));
-app.use('/api', cartRouter(io));
-app.use('', viewsRouter(io));
+app.use('/api', cartsRouter(io));
+app.use('/realtimeproducts', hbViewsRouter(io));
 
-app.use('/public', express.static(`${__dirname}/public`));
+app.use('/', express.static(`${__dirname}/public`));
 
-app.listen(PORT, () => {
+app.listen(PUERTO, () => {
     console.log(`Servidor base API/Static inicializado en puerto ${PORT}`);
 });
 

@@ -17,7 +17,7 @@
                 <p class="card-text">Stock: {{this.stock}}</p>
                 <p class="card-text">Status: {{this.status}}</p>
                 <p class="card-text">ID: {{this.id}}</p>
-                <a href="#" class="btn btn-primary">Delete</a>
+                <a href="#" class="btn btn-primary" onclick="deleteProduct({{this.id}})" id="click">Eliminar</a>
             </div>
             </div>
             {{/each}}
@@ -62,7 +62,7 @@
                 <input type="text" class="form-control" id="category">
             </div>
             <div class="col-12">
-            <button type="submit" class="btn btn-primary">Save</button>
+            <button type="submit" class="btn btn-primary" onclick="addProduct()">Guardar</button>
             </div>
         </form>
     </div>
@@ -77,8 +77,10 @@
             <input type="text" class="form-control" id="idToDelete">
         </div>
         <div class="col-12">
-            <button type="submit" class="btn btn-primary">Delete</button>
+            <button type="submit" class="btn btn-primary">Eliminar</button>
         </div>
     </form>
     </div>
 
+
+    
