@@ -97,7 +97,7 @@ app.use(express.urlencoded({extended:true}));
 //Endpoints API rest
 app.use('/api', productsRouter(io));
 app.use('/api', cartsRouter(io));
-app.use('/realtimeproducts', hbViewsRouter(io));
+app.use( hbViewsRouter(io));
 
 app.use('/', express.static(`${__dirname}/public`));
 

@@ -32,7 +32,7 @@ viewsRouter.get('/realtimeproducts', async (req, res) => {
     try {
     await productos.load();
     const showProducts = await productos.getProducts();
-    res.render('realtimeproducts', {showProducts});
+    res.render('realTimeProducts', {showProducts});
     console.log("realtimeproducts static endpoint is working? YES!" , showProducts);
     } catch (error) {
       res.status(500).send({error: error.message});
