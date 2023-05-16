@@ -14,7 +14,7 @@ import bodyParser from 'body-parser';
 import { Server } from 'socket.io';
 import app from '../app.js';
 
-const io = new Server(httpServer);
+//const io = new Server(httpServer);
 
 
 const hbViewsRouter = (io) => {
@@ -28,7 +28,7 @@ viewsRouter.use(express.json());
 let products = [];
 
 
-viewsRouter.get('/realtimeproducts', async (req, res) => { //probar con http://localhost:1000/realtimeproducts
+viewsRouter.get('/realtimeproducts', async (req, res) => { 
     try {
     await productos.load();
     const showProducts = await productos.getProducts();

@@ -28,13 +28,13 @@ const WS_PORT = 2020; //servidor Websocket
 //SERVIDOR EXPRESS
 const app = express();
 const server = http.createServer(app);
-const httpServer = app.listen(WS_PORT, () => {
+const httpServer = server.listen(WS_PORT, () => {
     console.log(`Servidor WS activo en puerto ${WS_PORT}`)
 }); 
 //const io = new Server(httpServer, {cors: {origin: "http://localhost:1010"}});
 
 
-const io = new Server(server, {
+const io = new Server(httpServer, {
     cors: {
         origin: "*",
         methods: ["PUT", "GET", "POST", "DELETE", "OPTIONS"],
