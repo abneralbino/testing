@@ -1,4 +1,5 @@
 import fs from 'fs';
+import productosModel from './models/products.model.js';
 
 class ProductManager {
     constructor () {
@@ -77,6 +78,19 @@ class ProductManager {
 
     async getProducts() {
         try {
+            //const data = await fs.promises.readFile(this.path, 'utf-8');
+            const data = await productosModel.find();
+            //const products = JSON.parse(data);
+            return this.products;
+            console.log("DB products" + data)
+        } catch (error) {
+            console.log(error);
+            return;
+        }
+    }
+
+    /* BACKUP  async getProducts() {
+        try {
             const data = await fs.promises.readFile(this.path, 'utf-8');
             const products = JSON.parse(data);
             return this.products;
@@ -84,7 +98,7 @@ class ProductManager {
             console.log(error);
             return;
         }
-    }
+    } */
 
     async getProductById(productId) {
         const data = await fs.promises.readFile(this.path, 'utf-8'); 

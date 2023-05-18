@@ -2,6 +2,7 @@ import { Router } from 'express';
 import ProductManager from '../ProductManager.js';
 import express from 'express';
 import bodyParser from 'body-parser';
+import productosModel from '../models/products.model.js';
 
 
 

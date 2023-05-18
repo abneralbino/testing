@@ -16,6 +16,8 @@ import productsRouter from './routes/products.routes.js';
 import cartsRouter from './routes/carts.routes.js';
 import hbViewsRouter from './routes/views.routes.js';
 
+import productosModel from './models/products.model.js';
+
 import { __dirname } from './utils.js';
 
 const PORT = parseInt(process.env.PORT) || 2020;
@@ -91,6 +93,7 @@ io.on('connection', (socket) => {
 
 });
 
+
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 
@@ -101,9 +104,19 @@ app.use( hbViewsRouter(io));
 
 app.use('/', express.static(`${__dirname}/public`));
 
-app.listen(PUERTO, () => {
+/* BACKUP app.listen(PUERTO, () => {
     console.log(`Servidor base API/Static inicializado en puerto ${PORT}`);
+}); */
+
+try {
+    await mongoose.connect('mongodb://127.0.0.1:27017/ProductManager');
+    app.listen(PUERTO, () => {
+    console.log(`Servidor API/Socket.io iniciado en puerto ${PORT}`);
 });
+} catch(err) {
+    console.log('No se puede conectar con el servidor de bbdd' + err);
+
+}
 
 //TEMPLATE ENGINE - MOTOR DE PLANTILLAS
 app.engine ('handlebars', engine());
